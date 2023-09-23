@@ -13,38 +13,31 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
           go-version: ^1.17
+          cache-dependency-path: ./go.mod
         id: go
 
-      - name: Set up node 14.x
-        uses: actions/setup-node@v2
+      - name: Set up node
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
+          cache: 'yarn'
+          cache-dependency-path: ./yarn.lock
         id: node
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-
-      - name: Get git tag
-        uses: olegtarasov/get-tag@v2.1
-        id: tagName
 
       - name: Build project
         run: |
           chmod +x build.sh
-          ./build.sh ${{ steps.tagName.outputs.tag }}
+          ./build.sh
 
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
+          name: asuwave
           path: |
             ./build/*.zip
 
