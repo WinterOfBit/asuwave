@@ -42,7 +42,7 @@ for os in ${os_list[@]}; do
         fi
         file=$build_dir/$build_prefix${gittag}_${os}_${arch}
         out=$build_dir/$build_prefix${os}_${arch}$suffix
-        CGO_ENABLED=0 GOOS=${os} GOARCH=${arch} go build -race -tags release -ldflags="$flags" -o $out
+        CGO_ENABLED=1 GOOS=${os} GOARCH=${arch} go build -race -tags release -ldflags="$flags" -o $out
         zip -j -9 $file.zip $out
     done
 done
