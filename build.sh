@@ -4,7 +4,14 @@ importpath="github.com/WinterOfBit/asuwave/internal/helper"
 build_prefix="asuwave_"
 os_list=("linux" "darwin" "windows")
 arch_list=("amd64" "arm64")
-gittag=`git describe --tags --abbrev=0`
+if [ -v $1 ];
+then
+    echo "No"
+    gittag=`git describe --tags --abbrev=0`
+else
+    echo "Yes"
+    gittag=$1
+fi
 
 echo ${gittag}
 sed -i "s/VUE_APP_GITTAG=.*/VUE_APP_GITTAG=${gittag}/g" .env
